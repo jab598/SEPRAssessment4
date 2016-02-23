@@ -19,6 +19,10 @@ public class Projectile : MonoBehaviour {
 	/// </summary>
 	public GameObject explosion;
 
+	public GameObject cheatExplosion;
+
+	public bool useDiffExplosion;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -38,7 +42,11 @@ public class Projectile : MonoBehaviour {
 		if (c.transform.tag == "Enemy") {
 			c.gameObject.GetComponent<Enemy>().decreaseHealth(damage);
 		}
-		Instantiate (explosion, transform.position, transform.rotation);
+		if (!useDiffExplosion) {
+			Instantiate (explosion, transform.position, transform.rotation);
+		} else {
+			Instantiate (cheatExplosion, transform.position, transform.rotation);
+		}
 		Destroy (this.gameObject);
 	}
 

@@ -115,7 +115,7 @@ public class PlayerShooting : MonoBehaviour {
 
 	public void SetFireRateCheat(bool val) {
 		if (val) {
-			fireRate = 0.05f;
+			fireRate = defaultRate/2;
 		} else {
 			fireRate = defaultRate;
 		}

@@ -38,6 +38,8 @@ public class PauseMenu : MonoBehaviour {
 	public Toggle infiniteResourceToggle;
 	public Toggle superSpeedToggle;
 	public Toggle fireRateToggle;
+
+	public bool disableInput;
 	//end of new 
 
 	bool paused = false;
@@ -51,19 +53,20 @@ public class PauseMenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetButtonDown (pauseButtonName)) {
-			if (Tutorial.started == true){
-			   	if(!paused) {
-					pauseGame();
-				} else {
-					unpauseGame();
+		if (!disableInput) {
+			if (Input.GetButtonDown (pauseButtonName)) {
+				if (Tutorial.started == true) {
+					if (!paused) {
+						pauseGame ();
+					} else {
+						unpauseGame ();
+					}
 				}
 			}
 		}
 		if (paused) {
 			if (Input.GetButtonDown ("cheatsMenu")) {
 				if (Tutorial.started == true) {
-					//cheats menu open here
 					setCheatsPanel(true);
 				}
 			}
@@ -71,10 +74,11 @@ public class PauseMenu : MonoBehaviour {
 	}
 
 	public void setCheatsPanel(bool value) {
-		pauseMenuPanel.SetActive(!value);
-		powerUpPanel.SetActive (!value);
-		missionsPanel.SetActive (!value);
+		//pauseMenuPanel.SetActive(!value);
+		//powerUpPanel.SetActive (!value);
+		//missionsPanel.SetActive (!value);
 		cheatsPanel.SetActive (value);
+		disableInput = value;
 	}
 
 	public void setInfiniteHealth() {
@@ -83,11 +87,6 @@ public class PauseMenu : MonoBehaviour {
 
 	public void setInfiniteResource() {
 		PlayerStates.inst.infiniteResource = infiniteResourceToggle.isOn;
-	}
-
-	public void Give100Resources() {
-		PlayerStates.inst.resources += 100;
-		GUIHandler.instance.updateResourceText (PlayerStates.inst.resources.ToString(), "+100 CHEAT!");
 	}
 
 	public void GiveFullHealth(){

@@ -33,9 +33,6 @@ public class UnicornBehaviour : MonoBehaviour {
 
 	void Update () {
 		//Debug.Log (transform.position + (transform.forward * 2 * Time.deltaTime));
-		if (Input.GetKey (KeyCode.H)) {
-			EndEvent();
-		}
 	}
 
 	void FixedUpdate () {

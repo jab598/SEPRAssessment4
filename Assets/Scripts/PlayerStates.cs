@@ -98,6 +98,7 @@ public class PlayerStates : MonoBehaviour {
 
 	public bool infiniteHealth;
 	public bool infiniteResource;
+	public bool infiniteEnergy;
 
 	//end of new
 
@@ -177,7 +178,9 @@ public class PlayerStates : MonoBehaviour {
 	/// <param name="amount">Amount to add.</param>
 	public void alterEnergy (int amount) {
 		//energy must be between 0 and 100.
-		energy = Mathf.Clamp (energy + amount, 0, 100);
+		if (!infiniteEnergy) {
+			energy = Mathf.Clamp (energy + amount, 0, 100);
+		}
 	}
 
 
