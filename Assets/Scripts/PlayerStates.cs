@@ -100,6 +100,15 @@ public class PlayerStates : MonoBehaviour {
 	public bool infiniteResource;
 	public bool infiniteEnergy;
 
+
+	public float timeToGoFoggy;
+	public float fogTransitionTime;
+	public float fogStrength;
+	float initialDensity;
+	public float foggyDuration;
+
+	[HideInInspector]
+	public bool IsFoggy;
 	//end of new
 
 	int geeseKilled = 0;
@@ -120,6 +129,7 @@ public class PlayerStates : MonoBehaviour {
 		GUIHandler.instance.updateEnergyBar (energy);
 		GUIHandler.instance.updateResourceText (resources.ToString (), "+"+resources.ToString ());
 		timeHealthAbove90 = 0;
+		initialDensity = RenderSettings.fogDensity;
 	}
 
 	bool HasHealthMission() {
@@ -152,6 +162,14 @@ public class PlayerStates : MonoBehaviour {
 			resources = 0;
 			//uncomment following line to go to main menu at the end of the game
 			//Application.LoadLevel("mainmenu");
+		}
+		if (Time.timeSinceLevelLoad >= timeToGoFoggy && Time.timeSinceLevelLoad <= (timeToGoFoggy + fogTransitionTime)) {
+			RenderSettings.fogDensity = Mathf.Lerp (initialDensity, fogStrength, (Time.timeSinceLevelLoad - timeToGoFoggy)/fogTransitionTime);
+			IsFoggy = true;
+		}
+		if (Time.timeSinceLevelLoad >= timeToGoFoggy+foggyDuration+fogTransitionTime && Time.timeSinceLevelLoad <= (timeToGoFoggy + 2*fogTransitionTime + foggyDuration)) {
+			RenderSettings.fogDensity = Mathf.Lerp (fogStrength, initialDensity , (Time.timeSinceLevelLoad - (timeToGoFoggy + fogTransitionTime + foggyDuration))/fogTransitionTime);
+			IsFoggy = false;
 		}
 	}
 
