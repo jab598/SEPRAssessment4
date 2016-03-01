@@ -7183,10 +7183,10 @@ MonoBehaviour:
   infiniteHealth: 0
   infiniteResource: 0
   infiniteEnergy: 0
-  timeToGoFoggy: 60
+  timeToGoFoggy: 120
   fogTransitionTime: 5
   fogStrength: 0.05
-  foggyDuration: 20
+  foggyDuration: 30
   IsFoggy: 0
   timeHealthAbove90: 0
 --- !u!114 &1603136452

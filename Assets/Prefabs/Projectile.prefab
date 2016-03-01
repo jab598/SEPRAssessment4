@@ -138,7 +138,7 @@ MonoBehaviour:
   damage: 30
   explosion: {fileID: 147994, guid: 1076b104891bb4be8b89e345ece0a9a4, type: 2}
   cheatExplosion: {fileID: 197308, guid: 1e2e50a209b3648c08ad2a250ca75c84, type: 2}
-  useDiffExplosion: 1
+  useDiffExplosion: 0
 --- !u!114 &11461838
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1760,7 +1760,7 @@ Prefab:
       objectReference: {fileID: 197308, guid: 1e2e50a209b3648c08ad2a250ca75c84, type: 2}
     - target: {fileID: 0}
       propertyPath: useDiffExplosion
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

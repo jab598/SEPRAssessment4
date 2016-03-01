@@ -342,6 +342,7 @@ public class PlayerController : MonoBehaviour {
     /// </summary>
 	public void onPowerupStateChanged(PlayerStates.PowerUpState value)
     {
+		powerupTimeElapsed = 0.0f;
         if (value == PlayerStates.PowerUpState.Shroomed)
         {
             if (p.currentState == PlayerStates.State.Flying)
@@ -365,6 +366,7 @@ public class PlayerController : MonoBehaviour {
         if (value == PlayerStates.PowerUpState.None)
         {
             shrink();
+			resetMovementSpeedMod ();
         }
         else
         {
