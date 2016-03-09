@@ -127,6 +127,24 @@ public class PlayerController : MonoBehaviour {
 		jumpWeapon.SetActive (shroomed ());
 		*/
 
+		if (Input.GetKey (KeyCode.J)) {
+			if (Input.GetKey (KeyCode.K)) {
+				if (Input.GetKeyDown (KeyCode.L)) {
+					PlayerStates.inst.resources += 10;
+					GUIHandler.instance.updateResourceText (PlayerStates.inst.resources.ToString(), "+10 CHEAT!");
+				}
+			}
+		}
+
+		if (Input.GetKey (KeyCode.U)) {
+			if (Input.GetKey (KeyCode.O)) {
+				if (Input.GetKeyDown (KeyCode.Y)) {
+					GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerShooting> ().multipleBreadUnlocked = true;
+					GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerShooting> ().laserUnlocked = true;
+				}
+			}
+		}
+
 
 		if(Input.GetButtonDown("Vertical") || Input.GetButtonDown("Horizontal")) {
 			HandleRandomInput();

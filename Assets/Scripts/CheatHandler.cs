@@ -43,10 +43,6 @@ public class CheatHandler : MonoBehaviour {
 			InfiniteEnergyEntered ();
 		} else if (code.StartsWith ("doublefirerate")) {
 			DoubleFireRateEntered ();
-		} else if (code.StartsWith ("moreenemies")) {
-			MoreEnemiesEntered ();
-		} else if (code.StartsWith ("lessenemies")) {
-			LessEnemiesEntered ();
 		} else if (code.StartsWith ("bigexplosion")) {
 			BigExplosionEntered ();
 		} else if (code.StartsWith ("giveresource")) {
@@ -97,22 +93,6 @@ public class CheatHandler : MonoBehaviour {
 		doubleFireRate = !doubleFireRate;
 		GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerShooting> ().SetFireRateCheat (doubleFireRate);
 		SetStatus ("Double fire rate set to " + doubleFireRate);
-	}
-
-	public void MoreEnemiesEntered() {
-		Spawner.inst.maxEnemies += 10;
-		if (Spawner.inst.maxEnemies >= 100) {
-			Spawner.inst.maxEnemies = 100;
-		}
-		SetStatus ("Max enemies set to " + Spawner.inst.maxEnemies);
-	}
-
-	public void LessEnemiesEntered() {
-		Spawner.inst.maxEnemies -= 10;
-		if (Spawner.inst.maxEnemies <= 0) {
-			Spawner.inst.maxEnemies = 1;
-		}
-		SetStatus ("Max enemies set to " + Spawner.inst.maxEnemies);
 	}
 
 	public void BigExplosionEntered() {
