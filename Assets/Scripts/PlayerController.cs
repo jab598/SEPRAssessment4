@@ -74,6 +74,11 @@ public class PlayerController : MonoBehaviour {
 
 	//new assessment4
 	public bool superSpeed = false;
+
+	int enteredCommands = 0;
+
+	//for getAxisDown behaviour
+	bool axisInUse = false;
 	//end of new
 
 
@@ -113,7 +118,7 @@ public class PlayerController : MonoBehaviour {
 		//pos is altered throghout this call then applied at the end.
 		Vector3 pos = transform.position;
 
-		/*
+		/* removed in assessment 4 as this is very inefficient
 		//quadruple duck speed if its invincible.
 		movementSpeedMod = invincible ()? 4.0f : 1.0f;
 		TODO fix this; its in fixed update.
@@ -121,6 +126,11 @@ public class PlayerController : MonoBehaviour {
 		//If shroomed then activate the jump weapon.
 		jumpWeapon.SetActive (shroomed ());
 		*/
+
+
+		if(Input.GetButtonDown("Vertical") || Input.GetButtonDown("Horizontal")) {
+			HandleRandomInput();
+		}
 
 		//Handles input from the player
 		if (Input.GetAxis ("Vertical") != 0 || Input.GetAxis ("Horizontal") != 0) {
@@ -135,6 +145,7 @@ public class PlayerController : MonoBehaviour {
 				pos += transform.right * Input.GetAxis ("Horizontal") * swimSpeed * movementSpeedMod * Time.deltaTime;
 			}
 		}
+
 		//looking around
 		if (Input.GetAxis ("Mouse X") != 0) {
 			transform.RotateAround(transform.position, Vector3.up ,Input.GetAxis("Mouse X") * lookSensitivity);
@@ -196,6 +207,21 @@ public class PlayerController : MonoBehaviour {
         }
 	}
 
+	/// <summary>
+	/// Handles the random input.
+	/// </summary>
+	public void HandleRandomInput() {
+		if (PlayerStates.inst.IsFoggy == true) {
+			if (nextCommandInvert ()) {
+				movementSpeedMod = -movementSpeedMod;
+			} else {
+				movementSpeedMod = Mathf.Abs (movementSpeedMod);
+			}
+		} else {
+			movementSpeedMod = Mathf.Abs (movementSpeedMod);
+		}
+	}
+
 	public bool CanFly()
 	{
 		return transform.position.y <= maximumHeight && p.energy >= 0;
@@ -228,6 +254,15 @@ public class PlayerController : MonoBehaviour {
 	public bool shroomed()
 	{
 		return p.currentPowerupState == PlayerStates.PowerUpState.Shroomed;
+	}
+
+	/// <summary>
+	/// Invert the next command
+	/// </summary>
+	/// <returns><c>true</c> every five calls</returns>
+	public bool nextCommandInvert() {
+		enteredCommands = (enteredCommands + 1) % 5;
+		return enteredCommands == 0;
 	}
 
 	/// <summary>
