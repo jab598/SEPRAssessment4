@@ -89,7 +89,9 @@ public class Spawner : MonoBehaviour {
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
         GetCollectableComponents();
-		initialMaxEnemies = maxEnemies;
+		//fixed stacking enemies
+		initialMaxEnemies = 15;
+		maxEnemies = initialMaxEnemies;
 	}
 
 	// Update is called once per frame

@@ -50,6 +50,16 @@ public class AI : MonoBehaviour {
 	/// </summary>
 	public int health;
 
+	float rotatedTime;
+	Vector3 rotVector = new Vector3 (0, 1, 0);
+
+	/// <summary>
+	/// Is this object demented
+	/// </summary>
+	public bool isDemented;
+
+	bool randomCharge = false;
+
 	/// <summary>
 	/// Distances to player.
 	/// </summary>
@@ -64,21 +74,45 @@ public class AI : MonoBehaviour {
 		return Mathf.Abs (dist.magnitude);
 	}
 
+	void StopCharging() {
+		randomCharge = false;
+		this.state = State.Walking;
+
+	}
+
+	void StartCharge() {
+		randomCharge = true;
+		this.state = State.Chasing;
+		transform.Rotate (new Vector3 (0, Random.Range (0, 360), 0));
+		Invoke ("StopCharging", 1);
+	}
+
 
 	protected void Move () {
-		if (distanceToPlayer () >= distanceToChasePlayer) {
-			rigid.MovePosition (transform.position + (transform.forward * patrolSpeed * Time.deltaTime));
-			transform.Rotate ((wantedRot - transform.rotation.eulerAngles) * Time.deltaTime * 0.1f);
-			if (Mathf.Abs (wantedRot.y - transform.rotation.y) <= 5) {
-				wantedRot.y = Random.Range (0, 360);
-			}
-			RaycastHit r;
-			if (Physics.Raycast (transform.position, transform.forward, out r)) {
-				if (r.distance <= 2) {
-					transform.Rotate (new Vector3 (0, 180, 0));
+		if (distanceToPlayer () >= distanceToChasePlayer && !PlayerStates.inst.IsFoggy) {
+			if (!randomCharge) {
+				rigid.MovePosition (transform.position + (transform.forward * patrolSpeed * Time.deltaTime));
+				transform.Rotate (Time.deltaTime * rotVector * 20);
+				if (Time.time >= rotatedTime) {
+					rotatedTime += Random.Range (5, 10);
+					rotVector.y = -rotVector.y;
 				}
+				RaycastHit r;
+				if (Physics.Raycast (transform.position, transform.forward, out r)) {
+					if (r.distance <= 2) {
+						transform.Rotate (new Vector3 (0, 180, 0));
+					}
+				}
+				if (isDemented) {
+					if (Random.Range (0, 300) == 1) {
+						StartCharge ();
+					}
+				}
+				state = State.Walking;
+			} else {
+				rigid.MovePosition (transform.position + (transform.forward * patrolSpeed * Time.deltaTime * 5));
+				state = State.Chasing;
 			}
-			state = State.Walking;
 		} else {
 			Vector3 lpos = player.transform.position;
 			lpos.y = transform.position.y;
