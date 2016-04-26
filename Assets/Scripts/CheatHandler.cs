@@ -2,11 +2,15 @@
 using System.Collections;
 using UnityEngine.UI;
 
+//Handles cheating
 public class CheatHandler : MonoBehaviour {
 
+	//text box that the player enteres the cheat in
 	public InputField cheatInput;
+	//for giving feedback to the player
 	public Text statusText;
 
+	//cheat status'
 	bool superSpeedOn = false;
 	bool morePickupsOn = false;
 	bool infiniteEnergy = false;
@@ -23,14 +27,24 @@ public class CheatHandler : MonoBehaviour {
 	
 	}
 
+	/// <summary>
+	/// Code the player has entered
+	/// </summary>
+	/// <returns>Code the player has entered</returns>
 	public string cheatCode() {
 		return cheatInput.text;
 	}
 
+	/// <summary>
+	/// Changes the status text
+	/// </summary>
 	public void SetStatus(string status) {
 		statusText.text = status;
 	}
 
+	/// <summary>
+	/// Reads the input box and handles the cheat.
+	/// </summary>
 	public void GetCheat() {
 		string code = cheatCode ();
 		if (code.StartsWith ("superspeed")) {
@@ -61,46 +75,54 @@ public class CheatHandler : MonoBehaviour {
 		}
 	}
 
+	//close cheat panel
 	public void ClosePanel() {
 		GameObject.FindObjectOfType<PauseMenu> ().setCheatsPanel (false);
 	}
 
+	//toggles super speed
 	public void SuperSpeedEntered() {
 		superSpeedOn = !superSpeedOn;
 		GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ().setSuperSpeed (superSpeedOn);
 		SetStatus ("Super speed set to " + superSpeedOn);
 	}
 
+	//toggles increased pickups
 	public void MorePickupsEntered() {
 		morePickupsOn = !morePickupsOn;
 		Spawner.inst.maxCollectables = morePickupsOn ? 50 : 20;
 		SetStatus ("More pickups set to " + morePickupsOn);
 	}
 
+	//Unlocks all weapons
 	public void UnlockAllEntered() {
 		GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerShooting> ().multipleBreadUnlocked = true;
 		GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerShooting> ().laserUnlocked = true;
-		SetStatus ("All unlocked");
+		SetStatus ("All weapons unlocked");
 	}
 
+	//toggles infinite energy
 	public void InfiniteEnergyEntered() {
 		infiniteEnergy = !infiniteEnergy;
 		PlayerStates.inst.infiniteEnergy = infiniteEnergy;
 		SetStatus ("Infinite energy set to " + infiniteEnergy);
 	}
 
+	//toggles double fire rate
 	public void DoubleFireRateEntered() {
 		doubleFireRate = !doubleFireRate;
 		GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerShooting> ().SetFireRateCheat (doubleFireRate);
 		SetStatus ("Double fire rate set to " + doubleFireRate);
 	}
 
+	//toggles big explosions
 	public void BigExplosionEntered() {
 		useDiffExpl = !useDiffExpl;
 		GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerShooting> ().projectile.GetComponent<Projectile> ().useDiffExplosion = useDiffExpl;
 		SetStatus ("Use different explosion set to " + useDiffExpl);
 	}
 
+	//gives 100 resources
 	public void GiveResourceEntered() {
 		PlayerStates.inst.resources += 100;
 		GUIHandler.instance.updateResourceText (PlayerStates.inst.resources.ToString(), "+100 CHEAT!");
